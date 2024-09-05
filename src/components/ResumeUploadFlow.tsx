@@ -48,7 +48,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
   return (
     <Card className="w-[450px] mx-auto mt-10">
       <CardHeader>
-        <CardTitle>Resume Upload and Career Assistant</CardTitle>
+        <CardTitle>Start Cooking with Magic Resume</CardTitle>
         <CardDescription>Upload your resume to find matching jobs and get career advice</CardDescription>
       </CardHeader>
       <CardContent>
@@ -97,7 +97,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
       </CardContent>
       {step === 3 && (
         <CardFooter>
-          <Button className="w-full">Get Personalized Career Advice</Button>
+          <Button className="w-full bg-violet-500 hover:bg-violet-300">Get Personalized Career Advice</Button>
         </CardFooter>
       )}
     </Card>

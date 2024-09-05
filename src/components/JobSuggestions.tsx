@@ -19,11 +19,11 @@ const JobSuggestions: React.FC<JobSuggestionsProps> = ({ suggestions }) => {
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-green-600">{job.salaryRange}</span>
+              <span className="text-sm font-medium text-violet-600">{job.salaryRange}</span>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <div className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+            <div className="bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
               {job.matchScore}% Match
             </div>
             <Button variant="outline" size="sm">Learn More</Button>

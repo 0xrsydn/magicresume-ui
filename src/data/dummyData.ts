@@ -9,8 +9,8 @@ export const jobSuggestions: JobSuggestion[] = [
 export const careerGrowthSuggestions: CareerGrowthSuggestions = {
   missingSkills: ['React Native', 'GraphQL', 'Docker'],
   youtubeRecommendations: [
-    { title: 'Advanced React Native Patterns', channel: 'React Native Academy', url: 'https://www.youtube.com/watch?v=example1' },
-    { title: 'GraphQL Crash Course', channel: 'Traversy Media', url: 'https://www.youtube.com/watch?v=example2' },
-    { title: 'Docker Tutorial for Beginners', channel: 'TechWorld with Nana', url: 'https://www.youtube.com/watch?v=example3' },
+    { title: 'React Native Tutorial for Beginners - Build a React Native App', channel: 'Programming with Mosh', url: 'https://www.youtube.com/watch?v=0-S5a0eXPoc' },
+    { title: 'GraphQL Crash Course', channel: 'Net Ninja', url: 'https://www.youtube.com/watch?v=xMCnDesBggM&list=PL4cUxeGkcC9gUxtblNUahcsg0WLxmrK_y' },
+    { title: 'Learn Docker in 7 Easy Steps - Full Beginner\'s Tutorial', channel: 'Fireship', url: 'https://www.youtube.com/watch?v=gAkwW2tuIqE' },
   ],
 };
