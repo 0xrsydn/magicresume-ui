@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Upload, FileText, X, Link } from 'lucide-react';
+import { Upload, FileText, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,7 +56,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
   return (
     <Card className="w-[450px] mx-auto mt-10">
       <CardHeader>
-        <CardTitle className="text-violet-500">Start Cooking with Magic Resume</CardTitle>
+        <CardTitle className="text-violet-500">Get Personalized Job Matches</CardTitle>
         <CardDescription>Upload your resume to find matching jobs and get course recommendations</CardDescription>
         <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
           <X className="h-4 w-4" />
@@ -135,11 +135,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
         )}
       </CardContent>
       {step === 1 && (
-        <div className="flex justify-between items-center px-6 py-4 bg-gray-50 border-t">
-          <Button variant="link" className="text-sm text-blue-600">
-            <Link className="h-4 w-4 mr-2" />
-            Help Center
-          </Button>
+        <div className="flex justify-end items-center px-6 py-4 bg-gray-50 border-t">
           <div className="space-x-2">
             <Button variant="outline">Cancel</Button>
             <Button className="bg-violet-500 hover:bg-violet-300" onClick={handleImport}>Import</Button>
