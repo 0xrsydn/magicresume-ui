@@ -56,8 +56,8 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
   return (
     <Card className="w-[450px] mx-auto mt-10">
       <CardHeader>
-        <CardTitle>Start Cooking with Magic Resume</CardTitle>
-        <CardDescription>Upload your resume to find matching jobs and get career advice</CardDescription>
+        <CardTitle className="text-violet-500">Start Cooking with Magic Resume</CardTitle>
+        <CardDescription>Upload your resume to find matching jobs and get course recommendations</CardDescription>
         <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
           <X className="h-4 w-4" />
         </Button>
@@ -68,7 +68,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <Upload className="mx-auto h-8 w-8 text-gray-400" />
               <p className="mt-2 text-sm text-gray-600">Drag & Drop or Choose file to upload</p>
-              <p className="text-xs text-gray-500">PDF, DOCX, or TXT (MAX. 5MB)</p>
+              <p className="text-xs text-gray-500">PDF (MAX. 5MB)</p>
               <input
                 id="resume-upload"
                 type="file"
@@ -114,7 +114,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
               <AlertTitle>Parsing Resume</AlertTitle>
               <AlertDescription>{file ? file.name : 'Uploaded URL'}</AlertDescription>
             </Alert>
-            <Progress value={progress} className="w-full" />
+            <Progress value={progress} className="w-full bg-violet-500" />
             <p className="text-sm text-muted-foreground">Analyzing your resume and generating suggestions...</p>
           </div>
         )}
@@ -142,7 +142,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
           </Button>
           <div className="space-x-2">
             <Button variant="outline">Cancel</Button>
-            <Button onClick={handleImport}>Import</Button>
+            <Button className="bg-violet-500 hover:bg-violet-300" onClick={handleImport}>Import</Button>
           </div>
         </div>
       )}
