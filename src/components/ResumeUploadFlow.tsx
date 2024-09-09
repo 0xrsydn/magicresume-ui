@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import JobSuggestions from './JobSuggestions';
 import CareerGrowthSuggestions from './CareerGrowthSuggestions';
-import { JobSuggestion, CareerGrowthSuggestions as CareerGrowthSuggestionsType } from '../types';
 import { ResumeAnalysisResult } from '../types';
 
 interface ResumeUploadFlowProps {
@@ -56,10 +55,10 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
   };
 
   return (
-    <Card className="w-[450px] mx-auto mt-10">
-      <CardHeader>
-        <CardTitle className="text-violet-500">Get Personalized Job Matches</CardTitle>
-        <CardDescription>Upload your resume to find matching jobs and get course recommendations</CardDescription>
+    <Card className="w-full max-w-[450px] mx-auto mt-10 sm:mt-16">
+      <CardHeader className="relative">
+        <CardTitle className="text-violet-500 text-xl sm:text-2xl">Get Personalized Job Matches</CardTitle>
+        <CardDescription className="text-sm sm:text-base">Upload your resume to find matching jobs and get course recommendations</CardDescription>
         <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
           <X className="h-4 w-4" />
         </Button>
@@ -67,9 +66,9 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
       <CardContent>
         {step === 1 && (
           <div className="space-y-4">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              <Upload className="mx-auto h-8 w-8 text-gray-400" />
-              <p className="mt-2 text-sm text-gray-600">Drag & Drop or Choose file to upload</p>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center">
+              <Upload className="mx-auto h-6 w-6 sm:h-8 sm:w-8 text-gray-400" />
+              <p className="mt-2 text-xs sm:text-sm text-gray-600">Drag & Drop or Choose file to upload</p>
               <p className="text-xs text-gray-500">PDF (MAX. 5MB)</p>
               <input
                 id="resume-upload"
@@ -80,7 +79,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
               />
               <Button
                 variant="outline"
-                className="mt-4"
+                className="mt-3 sm:mt-4 text-xs sm:text-sm"
                 onClick={() => document.getElementById('resume-upload')?.click()}
               >
                 Choose File
@@ -140,16 +139,16 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
         )}
       </CardContent>
       {step === 1 && (
-        <div className="flex justify-end items-center px-6 py-4 bg-gray-50 border-t">
+        <div className="flex justify-end items-center px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border-t">
           <div className="space-x-2">
-            <Button variant="outline">Cancel</Button>
-            <Button className="bg-violet-500 hover:bg-violet-300" onClick={handleImport}>Import</Button>
+            <Button variant="outline" className="text-xs sm:text-sm">Cancel</Button>
+            <Button className="bg-violet-500 hover:bg-violet-300 text-xs sm:text-sm" onClick={handleImport}>Import</Button>
           </div>
         </div>
       )}
       {step === 3 && (
         <CardFooter>
-          <Button className="w-full bg-violet-500 hover:bg-violet-300">Get Personalized Career Advice</Button>
+          <Button className="w-full bg-violet-500 hover:bg-violet-300 text-xs sm:text-sm">Get Personalized Career Advice</Button>
         </CardFooter>
       )}
     </Card>
