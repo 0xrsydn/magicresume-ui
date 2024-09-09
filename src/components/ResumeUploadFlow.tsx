@@ -11,18 +11,20 @@ import { Input } from "@/components/ui/input";
 import JobSuggestions from './JobSuggestions';
 import CareerGrowthSuggestions from './CareerGrowthSuggestions';
 import { JobSuggestion, CareerGrowthSuggestions as CareerGrowthSuggestionsType } from '../types';
+import { ResumeAnalysisResult } from '../types';
 
 interface ResumeUploadFlowProps {
-  jobSuggestions: JobSuggestion[];
-  careerGrowthSuggestions: CareerGrowthSuggestionsType;
+  analysisResult: ResumeAnalysisResult;
 }
 
-const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, careerGrowthSuggestions }) => {
+const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) => {
   const [step, setStep] = useState<number>(1);
   const [file, setFile] = useState<File | null>(null);
   const [parsing, setParsing] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<string>('');
+
+  const result = analysisResult.result[0];
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -114,7 +116,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
               <AlertTitle>Parsing Resume</AlertTitle>
               <AlertDescription>{file ? file.name : 'Uploaded URL'}</AlertDescription>
             </Alert>
-            <Progress value={progress} className="w-full bg-violet-500" />
+            <Progress value={progress} className="w-full [&>div]:bg-violet-500" />
             <p className="text-sm text-muted-foreground">Analyzing your resume and generating suggestions...</p>
           </div>
         )}
@@ -126,10 +128,13 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
               <TabsTrigger value="growth">Career Growth</TabsTrigger>
             </TabsList>
             <TabsContent value="jobs">
-              <JobSuggestions suggestions={jobSuggestions} />
+              <JobSuggestions suggestions={result.job_suggestion} />
             </TabsContent>
             <TabsContent value="growth">
-              <CareerGrowthSuggestions suggestions={careerGrowthSuggestions} />
+              <CareerGrowthSuggestions 
+              personalInfo={result.personal_information} 
+              courseSuggestions={result.course_suggestion}
+              />
             </TabsContent>
           </Tabs>
         )}

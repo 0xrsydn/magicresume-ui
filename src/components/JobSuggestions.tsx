@@ -11,22 +11,22 @@ const JobSuggestions: React.FC<JobSuggestionsProps> = ({ suggestions }) => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold">Job Suggestions</h2>
-      {suggestions.map((job) => (
-        <Card key={job.id}>
+      {suggestions.map((job, index) => (
+        <Card key={index}>
           <CardHeader>
             <CardTitle>{job.title}</CardTitle>
-            <CardDescription>{job.company}</CardDescription>
+            <CardDescription>{job.company_name}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-violet-600">{job.salaryRange}</span>
+            <p className="text-sm">{job.description}</p>
+            <div className="mt-2 flex items-center space-x-2">
+              <span className="text-sm font-medium text-violet-600">{job.location}</span>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-between">
-            <div className="bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-              {job.matchScore}% Match
-            </div>
-            <Button variant="outline" size="sm">Learn More</Button>
+          <CardFooter className="flex justify-end">
+            <Button variant="outline" size="sm" asChild>
+              <a href={job.url} target="_blank" rel="noopener noreferrer">Learn More</a>
+            </Button>
           </CardFooter>
         </Card>
       ))}
