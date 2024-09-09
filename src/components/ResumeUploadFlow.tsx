@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Upload, FileText, X, Link } from 'lucide-react';
+import { Upload, FileText, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,18 +11,20 @@ import { Input } from "@/components/ui/input";
 import JobSuggestions from './JobSuggestions';
 import CareerGrowthSuggestions from './CareerGrowthSuggestions';
 import { JobSuggestion, CareerGrowthSuggestions as CareerGrowthSuggestionsType } from '../types';
+import { ResumeAnalysisResult } from '../types';
 
 interface ResumeUploadFlowProps {
-  jobSuggestions: JobSuggestion[];
-  careerGrowthSuggestions: CareerGrowthSuggestionsType;
+  analysisResult: ResumeAnalysisResult;
 }
 
-const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, careerGrowthSuggestions }) => {
+const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) => {
   const [step, setStep] = useState<number>(1);
   const [file, setFile] = useState<File | null>(null);
   const [parsing, setParsing] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<string>('');
+
+  const result = analysisResult.result[0];
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -56,8 +58,8 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
   return (
     <Card className="w-[450px] mx-auto mt-10">
       <CardHeader>
-        <CardTitle>Start Cooking with Magic Resume</CardTitle>
-        <CardDescription>Upload your resume to find matching jobs and get career advice</CardDescription>
+        <CardTitle className="text-violet-500">Get Personalized Job Matches</CardTitle>
+        <CardDescription>Upload your resume to find matching jobs and get course recommendations</CardDescription>
         <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
           <X className="h-4 w-4" />
         </Button>
@@ -68,7 +70,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
               <Upload className="mx-auto h-8 w-8 text-gray-400" />
               <p className="mt-2 text-sm text-gray-600">Drag & Drop or Choose file to upload</p>
-              <p className="text-xs text-gray-500">PDF, DOCX, or TXT (MAX. 5MB)</p>
+              <p className="text-xs text-gray-500">PDF (MAX. 5MB)</p>
               <input
                 id="resume-upload"
                 type="file"
@@ -114,7 +116,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
               <AlertTitle>Parsing Resume</AlertTitle>
               <AlertDescription>{file ? file.name : 'Uploaded URL'}</AlertDescription>
             </Alert>
-            <Progress value={progress} className="w-full" />
+            <Progress value={progress} className="w-full [&>div]:bg-violet-500" />
             <p className="text-sm text-muted-foreground">Analyzing your resume and generating suggestions...</p>
           </div>
         )}
@@ -126,23 +128,22 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ jobSuggestions, car
               <TabsTrigger value="growth">Career Growth</TabsTrigger>
             </TabsList>
             <TabsContent value="jobs">
-              <JobSuggestions suggestions={jobSuggestions} />
+              <JobSuggestions suggestions={result.job_suggestion} />
             </TabsContent>
             <TabsContent value="growth">
-              <CareerGrowthSuggestions suggestions={careerGrowthSuggestions} />
+              <CareerGrowthSuggestions 
+              personalInfo={result.personal_information} 
+              courseSuggestions={result.course_suggestion}
+              />
             </TabsContent>
           </Tabs>
         )}
       </CardContent>
       {step === 1 && (
-        <div className="flex justify-between items-center px-6 py-4 bg-gray-50 border-t">
-          <Button variant="link" className="text-sm text-blue-600">
-            <Link className="h-4 w-4 mr-2" />
-            Help Center
-          </Button>
+        <div className="flex justify-end items-center px-6 py-4 bg-gray-50 border-t">
           <div className="space-x-2">
             <Button variant="outline">Cancel</Button>
-            <Button onClick={handleImport}>Import</Button>
+            <Button className="bg-violet-500 hover:bg-violet-300" onClick={handleImport}>Import</Button>
           </div>
         </div>
       )}
