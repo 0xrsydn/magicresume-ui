@@ -2,9 +2,11 @@ export interface JobSuggestion {
   budget: number;
   company_name: string;
   description: string;
+  id: string;
   location: string;
   title: string;
   url: string;
+  score_relevance: number;
 }
 
 export interface YoutubeRecommendation {
@@ -22,15 +24,16 @@ export interface CareerGrowthSuggestions {
 export interface PersonalInformation {
   skills: string[];
   location: string;
-  year_of_experience: string;
+  year_of_experience: number;
   job_title_relevan: string;
+  salary_estimation: string;
 }
 
 export interface ResumeAnalysisResult {
   message: string;
-  result: {
+  result: [{
     personal_information: PersonalInformation;
     job_suggestion: JobSuggestion[];
-    course_suggestion: CareerGrowthSuggestions;
-  }[];
+    course_suggestion: Record<string, CourseSuggestion>;
+  }];
 }

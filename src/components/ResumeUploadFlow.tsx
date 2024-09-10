@@ -8,27 +8,65 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import Link from 'next/link';
 import JobSuggestions from './JobSuggestions';
 import CareerGrowthSuggestions from './CareerGrowthSuggestions';
 import { ResumeAnalysisResult } from '../types';
+import axios from 'axios';
 
 interface ResumeUploadFlowProps {
-  analysisResult: ResumeAnalysisResult;
+  initialAnalysisResult: ResumeAnalysisResult;
 }
 
-const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) => {
+const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ initialAnalysisResult }) => {
   const [step, setStep] = useState<number>(1);
   const [file, setFile] = useState<File | null>(null);
   const [parsing, setParsing] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<string>('');
+  const [analysisResult, setAnalysisResult] = useState<ResumeAnalysisResult | null>(initialAnalysisResult);
 
-  const result = analysisResult.result[0];
+  const result = analysisResult?.result[0];
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
     if (uploadedFile) {
       setFile(uploadedFile);
+      await uploadFileAndGetRecommendations(uploadedFile);
+    }
+  };
+
+  const uploadFileAndGetRecommendations = async (file: File) => {
+    setParsing(true);
+    setStep(2);
+    
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post('http://109.123.239.167:8192/get-recommendation?session=200', formData, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / (progressEvent.total ?? 1));
+          setProgress(percentCompleted);
+        },
+      });
+
+      setAnalysisResult(response.data);
+      setParsing(false);
+      setStep(3);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setParsing(false);
+      // Handle error (e.g., show error message to user)
+    }
+  };
+
+  const handleImport = () => {
+    if (file || url) {
       simulateParsing();
     }
   };
@@ -48,20 +86,16 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
     }, 200);
   };
 
-  const handleImport = () => {
-    if (file || url) {
-      simulateParsing();
-    }
-  };
-
   return (
     <Card className="w-full max-w-[450px] mx-auto mt-10 sm:mt-16">
       <CardHeader className="relative">
         <CardTitle className="text-violet-500 text-xl sm:text-2xl">Get Personalized Job Matches</CardTitle>
         <CardDescription className="text-sm sm:text-base">Upload your resume to find matching jobs and get course recommendations</CardDescription>
-        <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
-          <X className="h-4 w-4" />
-        </Button>
+        <Link href="/" passHref>
+          <Button variant="ghost" className="absolute top-2 right-2 h-8 w-8 p-0">
+            <X className="h-4 w-4" />
+          </Button>
+        </Link>
       </CardHeader>
       <CardContent>
         {step === 1 && (
@@ -120,19 +154,19 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ analysisResult }) =
           </div>
         )}
 
-        {step === 3 && (
+        {step === 3 && analysisResult && (
           <Tabs defaultValue="jobs" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="jobs">Job Matches</TabsTrigger>
               <TabsTrigger value="growth">Career Growth</TabsTrigger>
             </TabsList>
             <TabsContent value="jobs">
-              <JobSuggestions suggestions={result.job_suggestion} />
+              <JobSuggestions suggestions={analysisResult.result[0].job_suggestion} />
             </TabsContent>
             <TabsContent value="growth">
               <CareerGrowthSuggestions 
-              personalInfo={result.personal_information} 
-              courseSuggestions={result.course_suggestion}
+                personalInfo={analysisResult.result[0].personal_information} 
+                courseSuggestions={analysisResult.result[0].course_suggestion}
               />
             </TabsContent>
           </Tabs>
