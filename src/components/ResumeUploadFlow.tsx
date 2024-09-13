@@ -15,7 +15,7 @@ import { ResumeAnalysisResult } from '../types';
 import axios from 'axios';
 
 interface ResumeUploadFlowProps {
-  initialAnalysisResult: ResumeAnalysisResult;
+  initialAnalysisResult?: ResumeAnalysisResult;
 }
 
 const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ initialAnalysisResult }) => {
@@ -24,7 +24,7 @@ const ResumeUploadFlow: React.FC<ResumeUploadFlowProps> = ({ initialAnalysisResu
   const [parsing, setParsing] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<string>('');
-  const [analysisResult, setAnalysisResult] = useState<ResumeAnalysisResult | null>(initialAnalysisResult);
+  const [analysisResult, setAnalysisResult] = useState<ResumeAnalysisResult | null>(initialAnalysisResult || null);
 
   const result = analysisResult?.result[0];
 
