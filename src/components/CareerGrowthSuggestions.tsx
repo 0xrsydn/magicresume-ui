@@ -6,7 +6,7 @@ import { PersonalInformation, CourseSuggestion } from '../types';
 
 interface CareerGrowthSuggestionsProps {
   personalInfo: PersonalInformation;
-  courseSuggestions: Record<string, CourseSuggestion>;
+  courseSuggestions: Record<string, CourseSuggestion[]>;
 }
 
 const CareerGrowthSuggestions: React.FC<CareerGrowthSuggestionsProps> = ({ personalInfo, courseSuggestions }) => {

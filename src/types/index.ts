@@ -29,11 +29,19 @@ export interface PersonalInformation {
   salary_estimation: string;
 }
 
+export interface CourseSuggestion {
+  title: string;
+  channel_title: string;
+  url: string;
+  description: string;
+  thumbnail: string;
+}
+
 export interface ResumeAnalysisResult {
   message: string;
   result: [{
     personal_information: PersonalInformation;
     job_suggestion: JobSuggestion[];
-    course_suggestion: Record<string, CourseSuggestion>;
+    course_suggestion: Record<string, CourseSuggestion[]>;
   }];
 }
