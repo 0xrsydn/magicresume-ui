@@ -9,16 +9,8 @@ export interface JobSuggestion {
   score_relevance: number;
 }
 
-export interface YoutubeRecommendation {
-  title: string;
-  channel_title: string;
-  url: string;
-  description: string;
-  thumbnail: string;
-}
-
 export interface CareerGrowthSuggestions {
-  [skill: string]: YoutubeRecommendation[];
+  [skill: string]: CourseSuggestion[];
 }
 
 export interface PersonalInformation {
@@ -42,6 +34,6 @@ export interface ResumeAnalysisResult {
   result: [{
     personal_information: PersonalInformation;
     job_suggestion: JobSuggestion[];
-    course_suggestion: Record<string, CourseSuggestion[]>;
+    course_suggestion: Record<string, CourseSuggestion>;
   }];
 }

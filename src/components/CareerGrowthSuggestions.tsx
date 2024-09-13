@@ -1,75 +1,80 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Image from 'next/image';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PersonalInformation, CourseSuggestion } from '../types';
 
 interface CareerGrowthSuggestionsProps {
   personalInfo: PersonalInformation;
-  courseSuggestions: Record<string, CourseSuggestion[]>;
+  courseSuggestions: Record<string, CourseSuggestion>;
 }
 
 const CareerGrowthSuggestions: React.FC<CareerGrowthSuggestionsProps> = ({ personalInfo, courseSuggestions }) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+      {/* Personal Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Your Skills</CardTitle>
-          <CardDescription>Based on your resume</CardDescription>
+          <CardTitle>Personal Information</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="space-y-2">
+            <li><strong>Location:</strong> {personalInfo.location}</li>
+            <li><strong>Years of Experience:</strong> {new Date().getFullYear() - personalInfo.year_of_experience}</li>
+            <li><strong>Relevant Job Titles:</strong> {personalInfo.job_title_relevan}</li>
+            <li><strong>Salary Estimation:</strong> {personalInfo.salary_estimation}</li>
+          </ul>
+        </CardContent>
+      </Card>
+
+      {/* Skills */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Skills</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            {personalInfo?.skills?.map((skill, index) => (
-              <Badge key={index} variant="secondary">{skill}</Badge>
+            {personalInfo.skills.map((skill, index) => (
+              <span key={index} className="bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                {skill}
+              </span>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Career Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p><strong>Location:</strong> {personalInfo.location}</p>
-          <p><strong>Years of Experience:</strong> {personalInfo.year_of_experience}</p>
-          <p><strong>Relevant Job Title:</strong> {personalInfo.job_title_relevan}</p>
-          <p><strong>Estimated Salary:</strong> {personalInfo.salary_estimation}</p>
-        </CardContent>
-      </Card>
-
+      {/* Recommended Courses */}
       <Card>
         <CardHeader>
           <CardTitle>Recommended Courses</CardTitle>
-          <CardDescription>Enhance your skills with these courses</CardDescription>
+          <CardDescription>Enhance your skills with these videos</CardDescription>
         </CardHeader>
         <CardContent>
           {Object.entries(courseSuggestions).length > 0 ? (
             <ul className="space-y-4">
-              {Object.entries(courseSuggestions).map(([skill, course], index) => (
+              {Object.entries(courseSuggestions).map(([skill, video], index) => (
                 <li key={index}>
                   <h3 className="font-semibold mb-2">{skill}</h3>
                   <div className="flex items-center space-x-4 mb-4">
-                    {course.thumbnail && (
+                    {video.thumbnail && (
                       <Image
-                        src={course.thumbnail}
-                        alt={course.title || 'Video thumbnail'}
+                        src={video.thumbnail}
+                        alt={video.title || 'Video thumbnail'}
                         width={120}
                         height={68}
                         className="rounded"
                       />
                     )}
                     <div>
-                      <h4 className="font-medium">{course.title}</h4>
-                      <p className="text-sm text-gray-500">{course.channel_title}</p>
-                      <a href={course.url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline">Watch Video</a>
+                      <h4 className="font-medium">{video.title}</h4>
+                      <p className="text-sm text-gray-500">{video.channel_title}</p>
+                      <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline">Watch Video</a>
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No course suggestions available.</p>
+            <p>No video suggestions available.</p>
           )}
         </CardContent>
       </Card>
