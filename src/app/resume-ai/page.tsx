@@ -5,7 +5,7 @@ import { resumeAnalysisResult } from '../../data/dummyData';
 const HomePage: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
-      <ResumeUploadFlow analysisResult={resumeAnalysisResult} />
+      <ResumeUploadFlow analysisResult={resumeAnalysisResult as any} />
     </div>
   );
 };
